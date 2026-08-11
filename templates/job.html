@@ -1,0 +1,222 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+
+{% if job %}
+
+    {{ job.title }} — CareerGraph
+
+{% else %}
+
+    Job — CareerGraph
+
+{% endif %}
+
+{% endblock %}
+
+
+{% block content %}
+
+
+{% if job %}
+
+
+<div class="mb-4">
+
+    <a
+        href="/jobs"
+        class="text-decoration-none"
+    >
+        ← Back to Jobs
+    </a>
+
+</div>
+
+
+<div class="card shadow-sm">
+
+    <div class="card-body p-4">
+
+
+        <span class="badge bg-primary mb-3">
+            Job Opportunity
+        </span>
+
+
+        <h1 class="fw-bold">
+            {{ job.title }}
+        </h1>
+
+
+        <h5 class="text-muted">
+            {{ job.company }}
+        </h5>
+
+
+        <hr>
+
+
+        <!-- Basic Information -->
+
+        <div class="row">
+
+
+            <div class="col-md-6">
+
+                <h6>
+                    Location
+                </h6>
+
+                <p>
+                    {{ job.location }}
+                </p>
+
+            </div>
+
+
+            <div class="col-md-6">
+
+                <h6>
+                    Experience Required
+                </h6>
+
+                <p>
+                    {{ job.experience_required }}
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- Description -->
+
+        <h5 class="mt-4">
+            Description
+        </h5>
+
+        {% if job.description %}
+
+            <p>
+                {{ job.description }}
+            </p>
+
+        {% else %}
+
+            <p class="text-muted">
+                No description available.
+            </p>
+
+        {% endif %}
+
+
+        <!-- Required Skills -->
+
+        <h5 class="mt-4">
+            Required Skills
+        </h5>
+
+
+        {% if job.required_skills %}
+
+
+            {% for skill in job.required_skills %}
+
+                {% if skill %}
+
+                    <span
+                        class="badge bg-light text-dark border me-2 mb-2"
+                    >
+                        {{ skill }}
+                    </span>
+
+                {% endif %}
+
+            {% endfor %}
+
+
+        {% else %}
+
+
+            <p class="text-muted">
+                No required skills listed.
+            </p>
+
+
+        {% endif %}
+
+
+        <!-- Preferred Degrees -->
+
+        <h5 class="mt-4">
+            Preferred Degrees
+        </h5>
+
+
+        {% if job.preferred_degrees %}
+
+
+            <ul>
+
+                {% for degree in job.preferred_degrees %}
+
+                    {% if degree %}
+
+                        <li>
+                            {{ degree }}
+                        </li>
+
+                    {% endif %}
+
+                {% endfor %}
+
+            </ul>
+
+
+        {% else %}
+
+
+            <p class="text-muted">
+                No preferred degree specified.
+            </p>
+
+
+        {% endif %}
+
+
+    </div>
+
+</div>
+
+
+{% else %}
+
+
+<!-- Job Not Found -->
+
+<div class="text-center py-5">
+
+    <h2 class="fw-bold">
+        Job not found
+    </h2>
+
+    <p class="text-muted">
+        The requested job could not be found.
+    </p>
+
+    <a
+        href="/jobs"
+        class="btn btn-primary mt-3"
+    >
+        Browse Jobs
+    </a>
+
+</div>
+
+
+{% endif %}
+
+
+{% endblock %}

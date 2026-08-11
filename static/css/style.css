@@ -1,0 +1,40 @@
+body {
+    background-color: #f8f9fa;
+    color: #212529;
+}
+
+.navbar-brand {
+    letter-spacing: 0.5px;
+}
+
+.hero-section {
+    padding: 60px 20px;
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.card {
+    border: none;
+    border-radius: 12px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08) !important;
+}
+
+.empty-state {
+    background-color: white;
+    border-radius: 12px;
+    padding: 50px 20px;
+}
+
+.badge {
+    font-weight: 500;
+}
+
+footer {
+    background-color: white;
+}

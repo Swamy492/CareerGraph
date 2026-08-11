@@ -1,0 +1,402 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Career Recommendations — CareerGraph
+{% endblock %}
+
+
+{% block content %}
+
+{% if profile %}
+
+
+<!-- Candidate Header -->
+
+<div class="mb-5">
+
+    <span class="badge bg-success mb-2">
+        Candidate Profile
+    </span>
+
+    <h1 class="fw-bold">
+        {{ profile.name }}
+    </h1>
+
+    <p class="text-muted">
+        {{ profile.location }}
+
+        {% if profile.experience %}
+            · {{ profile.experience }} year(s) experience
+        {% endif %}
+    </p>
+
+</div>
+
+
+<!-- Candidate Information -->
+
+<div class="row g-4">
+
+
+    <!-- Skills -->
+
+    <div class="col-md-4">
+
+        <div class="card h-100 shadow-sm">
+
+            <div class="card-body">
+
+                <h5 class="fw-bold mb-3">
+                    Your Skills
+                </h5>
+
+                {% if profile.skills %}
+
+                    {% for skill in profile.skills %}
+
+                        <span class="badge bg-primary me-1 mb-2">
+                            {{ skill }}
+                        </span>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <p class="text-muted">
+                        No skills listed.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Education -->
+
+    <div class="col-md-4">
+
+        <div class="card h-100 shadow-sm">
+
+            <div class="card-body">
+
+                <h5 class="fw-bold mb-3">
+                    Education
+                </h5>
+
+                {% if profile.degrees %}
+
+                    {% for degree in profile.degrees %}
+
+                        {% if degree %}
+
+                            <p class="mb-2">
+                                {{ degree }}
+                            </p>
+
+                        {% endif %}
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <p class="text-muted">
+                        No education information available.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Certifications -->
+
+    <div class="col-md-4">
+
+        <div class="card h-100 shadow-sm">
+
+            <div class="card-body">
+
+                <h5 class="fw-bold mb-3">
+                    Certifications
+                </h5>
+
+                {% if profile.certifications %}
+
+                    {% for certification in profile.certifications %}
+
+                        {% if certification %}
+
+                            <p class="mb-2">
+                                {{ certification }}
+                            </p>
+
+                        {% endif %}
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <p class="text-muted">
+                        No certifications available.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Recommended Jobs -->
+
+<section class="mt-5">
+
+    <h2 class="fw-bold">
+        Recommended Jobs
+    </h2>
+
+    <p class="text-muted">
+        Jobs connected to your existing skills.
+    </p>
+
+
+    {% if recommendations %}
+
+        <div class="row g-4">
+
+            {% for job in recommendations %}
+
+                <div class="col-md-6">
+
+                    <div class="card shadow-sm h-100">
+
+                        <div class="card-body">
+
+                            <h5 class="fw-bold">
+                                {{ job.title }}
+                            </h5>
+
+                            <p class="fw-semibold">
+                                {{ job.company }}
+                            </p>
+
+                            <p class="text-muted">
+                                📍 {{ job.location }}
+                            </p>
+
+                            <span class="badge bg-success">
+                                {{ job.matching_skills }}
+                                matching skill(s)
+                            </span>
+
+                            <div class="mt-3">
+
+                                <a
+                                    href="/job/{{ job.job_id }}"
+                                    class="btn btn-primary btn-sm"
+                                >
+                                    View Job
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="alert alert-info">
+
+            No matching jobs found for this candidate.
+
+        </div>
+
+    {% endif %}
+
+</section>
+
+
+<!-- Skill Gaps -->
+
+<section class="mt-5">
+
+    <h2 class="fw-bold">
+        Skills You May Need
+    </h2>
+
+    <p class="text-muted">
+        Skills required by jobs that are not currently in the candidate profile.
+    </p>
+
+
+    {% if skill_gaps %}
+
+        <div class="list-group">
+
+            {% for gap in skill_gaps %}
+
+                <div class="list-group-item">
+
+                    <strong>
+                        {{ gap.title }}
+                    </strong>
+
+                    <span class="text-muted">
+                        — Missing skill: {{ gap.missing_skill }}
+                    </span>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="alert alert-success">
+
+            No major skill gaps found.
+
+        </div>
+
+    {% endif %}
+
+</section>
+
+
+<!-- Matching Companies -->
+
+<section class="mt-5">
+
+    <h2 class="fw-bold">
+        Matching Companies
+    </h2>
+
+    <p class="text-muted">
+        Companies offering jobs that match the candidate's skills.
+    </p>
+
+
+    {% if companies %}
+
+        <div class="row g-4">
+
+            {% for company in companies %}
+
+                <div class="col-md-6">
+
+                    <div class="card shadow-sm h-100">
+
+                        <div class="card-body">
+
+                            <h5 class="fw-bold">
+                                {{ company.company }}
+                            </h5>
+
+                            {% if company.industry %}
+
+                                <p class="text-muted">
+                                    {{ company.industry }}
+                                </p>
+
+                            {% endif %}
+
+
+                            {% if company.location %}
+
+                                <p>
+                                    📍 {{ company.location }}
+                                </p>
+
+                            {% endif %}
+
+
+                            <p class="fw-semibold">
+                                Matching Jobs
+                            </p>
+
+                            {% if company.matching_jobs %}
+
+                                <ul>
+
+                                    {% for job in company.matching_jobs %}
+
+                                        <li>
+                                            {{ job }}
+                                        </li>
+
+                                    {% endfor %}
+
+                                </ul>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <p class="text-muted">
+            No matching companies found.
+        </p>
+
+    {% endif %}
+
+</section>
+
+
+{% else %}
+
+
+<!-- Candidate Not Found -->
+
+<div class="text-center py-5">
+
+    <h2 class="fw-bold">
+        Candidate not found
+    </h2>
+
+    <p class="text-muted">
+        We could not find the requested candidate.
+    </p>
+
+    <a
+        href="/"
+        class="btn btn-primary"
+    >
+        Go Home
+    </a>
+
+</div>
+
+
+{% endif %}
+
+{% endblock %}
